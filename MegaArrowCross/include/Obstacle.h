@@ -6,13 +6,14 @@
 class Obstacle
 {
 public:
-	Obstacle(sf::Vector2f position);
+	Obstacle(sf::Vector2f position, int radius, int speed);
 	~Obstacle();
 	void update(double dt);
 	void draw(sf::RenderWindow &window);
 
 private:
 
+	//circle shape representing the obatacle
 	sf::CircleShape m_obstacle;
 
 	// position of the obsatcle
@@ -22,7 +23,10 @@ private:
 	sf::Vector2f m_velocity;
 
 	// speed of the obstacle
-	float m_speed;
+	int m_speed;
+
+	// radius of the obstacle
+	int m_radius;
 
 
 };

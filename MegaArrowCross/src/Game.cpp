@@ -1,12 +1,15 @@
 #include "Game.h"
 
 const sf::Int32 Game::s_MS_PER_UPDATE = 10;
+const int Game::WINDOW_WIDTH = 800;
+const int Game::WINDOW_HEIGHT = 600;
 
 Game::Game()
 	: m_window()
-	, test(sf::Vector2f(200,200))
-{
 	
+{
+	srand(time(NULL));
+	spawnObstacles();
 }
 
 
@@ -16,9 +19,10 @@ Game::~Game()
 
 void Game::init()
 {
+	
 	sf::ContextSettings windowSettings = sf::ContextSettings();
 	windowSettings.antialiasingLevel = 4u;
-	m_window.create(sf::VideoMode(800, 600), "MegaArrowCross", sf::Style::Default, windowSettings);
+	m_window.create(sf::VideoMode(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), "MegaArrowCross", sf::Style::Default, windowSettings);
 	m_window.setVerticalSyncEnabled(true);
 }
 
@@ -69,12 +73,47 @@ void Game::processEvents()
 
 void Game::update(const double &dt)
 {
+	if (!m_obstacles.empty())
+	{
+		for (auto &obstacle : m_obstacles)
+		{
+			obstacle.update(dt);
+		}
+	}
 }
 
 void Game::render(const double &ms)
 {
 	m_window.clear();
-	test.draw(m_window);
+	if (!m_obstacles.empty())
+	{
+		for (auto &obstacle : m_obstacles)
+		{
+			obstacle.draw(m_window);
+		}
+	}
 	m_window.display();
+}
+
+void Game::spawnObstacles()
+{
+	sf::Vector2f tempPos = sf::Vector2f(0, 0);
+	int radius = 20;
+	int randNum = rand() % (2-1+1)+1;
+	int randY = rand() % ((Game::WINDOW_HEIGHT - 150)- radius) + (radius);
+	int speed = 0;
+	if (randNum == 1)
+	{
+		tempPos = sf::Vector2f(-radius, randY);
+		speed = 2;
+	}
+	else
+	{
+		tempPos = sf::Vector2f(Game::WINDOW_WIDTH + radius, randY);
+		speed = -2;
+	}
+	Obstacle tempObstacle = Obstacle(tempPos, radius, speed);
+
+	m_obstacles.push_back(tempObstacle);
 }
 

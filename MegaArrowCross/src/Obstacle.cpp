@@ -2,12 +2,15 @@
 
 
 
-Obstacle::Obstacle(sf::Vector2f position)
+Obstacle::Obstacle(sf::Vector2f position, int radius, int speed)
 	: m_position(position)
+	, m_radius(radius)
+	, m_speed(speed)
 {
 	m_obstacle.setFillColor(sf::Color::Blue);
-	m_obstacle.setRadius(20);
+	m_obstacle.setRadius(m_radius);
 	m_obstacle.setPosition(m_position);
+	m_velocity = sf::Vector2f(m_speed, 0);
 }
 
 Obstacle::~Obstacle()
@@ -16,6 +19,8 @@ Obstacle::~Obstacle()
 
 void Obstacle::update(double dt)
 {
+	m_position += m_velocity;
+	m_obstacle.setPosition(m_position);
 }
 
 void Obstacle::draw(sf::RenderWindow &window)
