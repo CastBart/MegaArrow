@@ -10,7 +10,7 @@ public:
 	~Obstacle();
 	void update(double dt);
 	void draw(sf::RenderWindow &window);
-
+	sf::Vector2f Pos();
 private:
 
 	//circle shape representing the obatacle

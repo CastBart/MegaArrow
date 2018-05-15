@@ -6,7 +6,6 @@ const int Game::WINDOW_HEIGHT = 600;
 
 Game::Game()
 	: m_window()
-	
 {
 	srand(time(NULL));
 	spawnObstacles();
@@ -73,11 +72,27 @@ void Game::processEvents()
 
 void Game::update(const double &dt)
 {
+	
 	if (!m_obstacles.empty())
 	{
+		if (spawnNextObstacle())
+		{
+			spawnObstacles();
+		}
 		for (auto &obstacle : m_obstacles)
 		{
 			obstacle.update(dt);
+		}
+	}
+	if (!m_platforms.empty())
+	{
+		if (spawnNextObstacle())
+		{
+			spawnObstacles();
+		}
+		for (auto &platform : m_platforms)
+		{
+			platform.update(dt);
 		}
 	}
 }
@@ -90,30 +105,57 @@ void Game::render(const double &ms)
 		for (auto &obstacle : m_obstacles)
 		{
 			obstacle.draw(m_window);
+			
+		}
+	}
+	if (!m_platforms.empty())
+	{
+		for (auto &platform : m_platforms)
+		{
+			platform.draw(m_window);
+
 		}
 	}
 	m_window.display();
 }
 
+
 void Game::spawnObstacles()
 {
-	sf::Vector2f tempPos = sf::Vector2f(0, 0);
-	int radius = 20;
+	sf::Vector2f tempObstaclePos = sf::Vector2f(0, 0);
+	sf::Vector2f tempPlatfoormPos = sf::Vector2f();
+
+	radius = 20;
 	int randNum = rand() % (2-1+1)+1;
-	int randY = rand() % ((Game::WINDOW_HEIGHT - 150)- radius) + (radius);
+	int randY = rand() % ((Game::WINDOW_HEIGHT - 300)- radius) + (radius);
 	int speed = 0;
 	if (randNum == 1)
 	{
-		tempPos = sf::Vector2f(-radius, randY);
+		tempObstaclePos = sf::Vector2f(-radius, randY);
+		tempPlatfoormPos = sf::Vector2f(Game::WINDOW_WIDTH - (radius*2), randY);
 		speed = 2;
 	}
 	else
 	{
-		tempPos = sf::Vector2f(Game::WINDOW_WIDTH + radius, randY);
+		tempObstaclePos = sf::Vector2f(Game::WINDOW_WIDTH + radius, randY);
+		tempPlatfoormPos = sf::Vector2f(radius*2, randY);
 		speed = -2;
 	}
-	Obstacle tempObstacle = Obstacle(tempPos, radius, speed);
+	//puhs back to obstacle vector
+	m_obstacles.push_back(Obstacle(tempObstaclePos, radius, speed));
+	//push back to platform vector
+	m_platforms.push_back(Platform(tempPlatfoormPos));
+}
 
-	m_obstacles.push_back(tempObstacle);
+bool Game::spawnNextObstacle()
+{
+	int radiusTwice = radius * 2;
+	if (m_obstacles.back().Pos().x <= -radiusTwice ||
+		m_obstacles.back().Pos().x >= (Game::WINDOW_WIDTH + radiusTwice))
+	{
+		return true;
+	}
+
+	return false;
 }
 

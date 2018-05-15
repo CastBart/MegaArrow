@@ -1,11 +1,16 @@
 #pragma once
+//libs
 #include "SFML\Graphics.hpp"
 #include "SFML\Window.hpp"
 #include <iostream>
-#include "Obstacle.h"
 #include <stdio.h>     
 #include <stdlib.h>    
-#include <time.h>      
+#include <time.h>  
+
+//classes
+#include "Obstacle.h"
+#include "Platform.h"
+    
 
 
 class Game
@@ -24,12 +29,15 @@ private:
 	void update(const double &dt);
 	void render(const double &ms);
 	void spawnObstacles();
+	bool spawnNextObstacle();
 
-
+	int radius;
 	static const sf::Int32 s_MS_PER_UPDATE;
 	sf::RenderWindow m_window;
 
 	std::vector<Obstacle> m_obstacles;
+	std::vector<Platform> m_platforms;
+	
 	
 };
 

@@ -21,9 +21,15 @@ void Obstacle::update(double dt)
 {
 	m_position += m_velocity;
 	m_obstacle.setPosition(m_position);
+	m_obstacle.setOrigin(sf::Vector2f(m_obstacle.getLocalBounds().width / 2, m_obstacle.getLocalBounds().height / 2));
 }
 
 void Obstacle::draw(sf::RenderWindow &window)
 {
 	window.draw(m_obstacle);
+}
+
+sf::Vector2f Obstacle::Pos()
+{
+	return m_position;
 }
