@@ -29,3 +29,8 @@ void Platform::draw(sf::RenderWindow & window)
 {
 	window.draw(m_platform);
 }
+
+sf::FloatRect Platform::boundingBox()
+{
+	return m_platform.getGlobalBounds();
+}

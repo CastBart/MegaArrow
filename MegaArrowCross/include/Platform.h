@@ -8,13 +8,14 @@ public:
 
 	void update(double dt);
 	void draw(sf::RenderWindow &window);
+	sf::FloatRect boundingBox();
 
 private:
 	sf::RectangleShape m_platform;
 	sf::Vector2f m_position;
 
-	const float m_HEIGHT;
-	const float m_WIDTH;
+	float m_HEIGHT;
+	float m_WIDTH;
 	
 };
 

@@ -11,8 +11,10 @@ public:
 	void update(double dt);
 	void draw(sf::RenderWindow &window);
 	sf::Vector2f Pos();
-private:
+	sf::FloatRect boudingBox();
 
+private:
+	
 	//circle shape representing the obatacle
 	sf::CircleShape m_obstacle;
 

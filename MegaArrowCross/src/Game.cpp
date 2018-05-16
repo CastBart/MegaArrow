@@ -131,27 +131,46 @@ void Game::spawnObstacles()
 	int speed = 0;
 	if (randNum == 1)
 	{
-		tempObstaclePos = sf::Vector2f(-radius, randY);
-		tempPlatfoormPos = sf::Vector2f(Game::WINDOW_WIDTH - (radius*2), randY);
+		tempObstaclePos = sf::Vector2f(static_cast<float>(-radius), static_cast<float>(randY));
+		tempPlatfoormPos = sf::Vector2f(static_cast<float>(Game::WINDOW_WIDTH - (radius*2)), static_cast<float>(randY));
 		speed = 2;
 	}
 	else
 	{
-		tempObstaclePos = sf::Vector2f(Game::WINDOW_WIDTH + radius, randY);
-		tempPlatfoormPos = sf::Vector2f(radius*2, randY);
+		tempObstaclePos = sf::Vector2f(static_cast<float>(Game::WINDOW_WIDTH + radius), static_cast<float>(randY));
+		tempPlatfoormPos = sf::Vector2f(static_cast<float>(radius*2), static_cast<float>(randY));
 		speed = -2;
 	}
 	//puhs back to obstacle vector
 	m_obstacles.push_back(Obstacle(tempObstaclePos, radius, speed));
 	//push back to platform vector
 	m_platforms.push_back(Platform(tempPlatfoormPos));
+
+	if (m_obstacles.size() >= 2)
+	{
+		m_obstacles.erase(m_obstacles.begin());
+	}
+
+	if ( m_platforms.size() >= 2)
+	{
+		m_platforms.erase(m_platforms.begin());
+	}
+}
+
+bool Game::collisions()
+{
+	if (m_platforms.back().boundingBox().intersects(m_obstacles.back().boudingBox()))
+	{
+		return true;
+	}
+	return false;
+	
 }
 
 bool Game::spawnNextObstacle()
 {
 	int radiusTwice = radius * 2;
-	if (m_obstacles.back().Pos().x <= -radiusTwice ||
-		m_obstacles.back().Pos().x >= (Game::WINDOW_WIDTH + radiusTwice))
+	if (collisions())
 	{
 		return true;
 	}

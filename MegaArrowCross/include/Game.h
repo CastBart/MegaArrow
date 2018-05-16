@@ -29,6 +29,8 @@ private:
 	void update(const double &dt);
 	void render(const double &ms);
 	void spawnObstacles();
+
+	bool collisions();
 	bool spawnNextObstacle();
 
 	int radius;

@@ -33,3 +33,8 @@ sf::Vector2f Obstacle::Pos()
 {
 	return m_position;
 }
+
+sf::FloatRect Obstacle::boudingBox()
+{
+	return m_obstacle.getGlobalBounds();
+}
