@@ -6,6 +6,7 @@ const int Game::WINDOW_HEIGHT = 600;
 
 Game::Game()
 	: m_window()
+	, m_player(sf::Vector2f(Game::WINDOW_WIDTH / 2, Game::WINDOW_HEIGHT - 50))
 {
 	srand(time(NULL));
 	spawnObstacles();
@@ -72,7 +73,7 @@ void Game::processEvents()
 
 void Game::update(const double &dt)
 {
-	
+	m_player.update(dt);
 	if (!m_obstacles.empty())
 	{
 		if (spawnNextObstacle())
@@ -100,6 +101,7 @@ void Game::update(const double &dt)
 void Game::render(const double &ms)
 {
 	m_window.clear();
+	m_player.draw(m_window);
 	if (!m_obstacles.empty())
 	{
 		for (auto &obstacle : m_obstacles)
@@ -172,6 +174,7 @@ bool Game::spawnNextObstacle()
 	int radiusTwice = radius * 2;
 	if (collisions())
 	{
+		
 		return true;
 	}
 

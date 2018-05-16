@@ -10,6 +10,7 @@
 //classes
 #include "Obstacle.h"
 #include "Platform.h"
+#include "Player.h"
     
 
 
@@ -36,6 +37,8 @@ private:
 	int radius;
 	static const sf::Int32 s_MS_PER_UPDATE;
 	sf::RenderWindow m_window;
+
+	Player m_player;
 
 	std::vector<Obstacle> m_obstacles;
 	std::vector<Platform> m_platforms;
